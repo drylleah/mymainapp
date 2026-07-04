@@ -1,4 +1,4 @@
-# Cipher Console — Tagalog → English
+
 
 A small web app: you type Tagalog, it auto-corrects common typos as you go,
 and it translates to English in the background — but the on-screen output
