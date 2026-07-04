@@ -3,6 +3,7 @@
 
   // ---------- DOM refs ----------
   const sourceInput = document.getElementById("sourceInput");
+  const inputOverlay = document.getElementById("inputCipherOverlay");
   const cipherOutput = document.getElementById("cipherOutput");
   const copyBtn = document.getElementById("copyBtn");
   const peekBtn = document.getElementById("peekBtn");
@@ -60,6 +61,7 @@
     cipherOutput.textContent = buildCipherChunk(len);
     cipherOutput.classList.remove("glyph-settled");
     cipherOutput.classList.add("glyph-live");
+    inputOverlay.textContent = buildCipherChunk(len);
   }
 
   function startLiveFlicker() {
@@ -80,6 +82,7 @@
     cipherOutput.textContent = buildCipherChunk(len);
     cipherOutput.classList.remove("glyph-live");
     cipherOutput.classList.add("glyph-settled");
+    inputOverlay.textContent = buildCipherChunk(sourceInput.value.length);
   }
 
   function setStatus(state) {
@@ -152,6 +155,8 @@
     setScanning(false);
     cipherOutput.textContent = "";
     cipherOutput.classList.remove("glyph-live", "glyph-settled");
+    inputOverlay.textContent = "";
+    sourceInput.classList.remove("is-revealed");
     currentTranslation = "";
     setButtonsEnabled(false);
     setStatus("idle");
@@ -215,7 +220,6 @@
     if (!currentTranslation) return;
     try {
       await navigator.clipboard.writeText(currentTranslation);
-      showToast("Copied translation to clipboard");
     } catch (err) {
       console.error("Clipboard write failed:", err);
       showToast("Copy failed — select text manually");
@@ -225,11 +229,18 @@
   peekBtn.addEventListener("click", () => {
     if (!currentTranslation) return;
     stopLiveFlicker();
+
+    // Reveal the real translation.
     cipherOutput.textContent = currentTranslation;
     cipherOutput.classList.remove("glyph-live", "glyph-settled");
+
+    // Reveal the real typed source text too.
+    sourceInput.classList.add("is-revealed");
+
     clearTimeout(peekTimer);
     peekTimer = setTimeout(() => {
       renderSettledCipher();
+      sourceInput.classList.remove("is-revealed");
     }, 2500);
   });
 
@@ -239,7 +250,6 @@
     if (!currentTranslation) return;
     e.preventDefault();
     e.clipboardData.setData("text/plain", currentTranslation);
-    showToast("Copied translation to clipboard");
   });
 
   // ---------- initial state ----------

@@ -191,8 +191,40 @@ html, body {
 }
 
 .pane__cipher:empty::before {
-  content: "// awaiting input...";
-  color: var(--text-muted);
+  content: "";
+}
+
+/* ---------- input masking (source pane shows gibberish while typing) ---------- */
+
+.pane__input-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+}
+
+.pane__textarea--obscured {
+  color: transparent;
+  caret-color: var(--teal);
+  position: relative;
+  z-index: 2;
+}
+
+.pane__textarea--obscured.is-revealed {
+  color: var(--text);
+}
+
+.pane__cipher--overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  color: var(--teal);
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+
+.pane__textarea--obscured.is-revealed ~ .pane__cipher--overlay {
+  opacity: 0;
 }
 
 .pane__cipher .glyph-settled {

@@ -22,7 +22,7 @@
       <span class="brand__mark">&#9673;</span>
       <span class="brand__text">CIPHER CONSOLE</span>
     </div>
-    <div class="header__meta">
+    <div class="header__meta" style="display:none;">
       <span class="meta__pill" id="statusPill">IDLE</span>
       <span class="meta__route">TL &rarr; EN</span>
     </div>
@@ -32,17 +32,15 @@
 
     <!-- LEFT: input pane -->
     <section class="pane pane--input">
-      <div class="pane__label">
-        <span class="pane__index">01</span>
-        <span>SOURCE // TAGALOG</span>
+      <div class="pane__input-wrap">
+        <textarea
+          id="sourceInput"
+          class="pane__textarea pane__textarea--obscured"
+          spellcheck="false"
+          autocomplete="off"
+        ></textarea>
+        <div id="inputCipherOverlay" class="pane__cipher pane__cipher--overlay" aria-hidden="true"></div>
       </div>
-      <textarea
-        id="sourceInput"
-        class="pane__textarea"
-        placeholder="Simulan ang pag-type dito... (auto-correct is on)"
-        spellcheck="false"
-        autocomplete="off"
-      ></textarea>
       <div class="pane__footer">
         <span id="autocorrectFlag" class="footer__hint"></span>
       </div>
@@ -55,16 +53,12 @@
 
     <!-- RIGHT: obfuscated output pane -->
     <section class="pane pane--output">
-      <div class="pane__label">
-        <span class="pane__index">02</span>
-        <span>OUTPUT // ENCODED</span>
-      </div>
 
       <div id="cipherOutput" class="pane__cipher" tabindex="0"></div>
 
       <div class="pane__footer pane__footer--actions">
         <button id="copyBtn" class="btn btn--primary" disabled>
-          Copy translation
+          ypoc
         </button>
         <button id="peekBtn" class="btn btn--ghost" disabled>
           Peek
@@ -74,10 +68,6 @@
     </section>
 
   </main>
-
-  <footer class="console__footer">
-    <span>The output pane never displays the plain translation. Copy or Peek to reveal it.</span>
-  </footer>
 
 </div>
 
